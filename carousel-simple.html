@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Concave Carousel</title>
+
+<!-- ==========================================================
+     HOW TO EDIT THIS FILE
+     - Product names / categories: search for  PRODUCTS
+     - Speed, tilt, depth:          search for  SETTINGS
+     - The photos themselves:       search for  IMAGE DATA  (near the bottom)
+     - Button text:                 search for  Shop the full collection
+     ========================================================== -->
+
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@600;700&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #fbfaf8; font-family: 'Noto Serif', Georgia, serif; }
+  a { color: #d6446b; }
+  a:hover { color: #b63456; }
+
+  .carousel-section { padding: 56px 0 40px; overflow: hidden; }
+  .carousel-stage   { width: 100%; perspective: 1150px; perspective-origin: 50% 46%; overflow: hidden; }
+  .carousel-view    { position: relative; width: 100%; height: 430px; transform-style: preserve-3d; }
+  .carousel-track   { position: absolute; top: 0; left: 0; display: flex; gap: 16px; align-items: center;
+                      height: 100%; transform-style: preserve-3d; will-change: transform; }
+
+  .card       { flex: 0 0 auto; width: 232px; height: 388px; transform-style: preserve-3d; backface-visibility: hidden; }
+  .card-inner { position: relative; width: 100%; height: 100%; border-radius: 12px; overflow: hidden;
+                background: #f4f2ee; box-shadow: 0 18px 34px -18px rgba(30,45,70,.45);
+                outline: 1px solid rgba(120,140,165,.2); outline-offset: -1px; }
+  .card-inner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .card-label    { position: absolute; left: 0; right: 0; bottom: 0; padding: 44px 16px 14px;
+                   display: flex; flex-direction: column; gap: 3px;
+                   background: linear-gradient(to top, rgba(14,18,26,.92) 0%, rgba(14,18,26,.88) 42%,
+                               rgba(14,18,26,.55) 68%, rgba(14,18,26,0) 100%); }
+  .card-name     { font-size: 15px; font-weight: 700; line-height: 1.25; color: #fff; }
+  .card-category { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .08em;
+                   text-transform: uppercase; color: #fff; }
+
+  .controls  { display: flex; justify-content: center; align-items: center; gap: 18px; margin-top: 34px; }
+  .arrow     { width: 44px; height: 44px; border-radius: 999px; border: 1px solid rgba(40,55,80,.18);
+               background: #fff; color: #2a3750; font-size: 20px; line-height: 1; cursor: pointer;
+               box-shadow: 0 6px 14px -8px rgba(30,45,70,.5); }
+  .arrow:hover { background: #f2f5f9; }
+  .cta       { font-size: 17px; font-weight: 700; color: #fff; text-decoration: none; padding: 15px 30px;
+               border-radius: 999px; background: linear-gradient(95deg, #f4762a 0%, #ea2f6b 100%);
+               box-shadow: 0 12px 26px -12px rgba(226,60,100,.75); }
+</style>
+</head>
+<body>
+
+<section class="carousel-section">
+  <div class="carousel-stage">
+    <div class="carousel-view" id="carouselView">
+      <div class="carousel-track" id="carouselTrack"></div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="arrow" id="btnPrev" aria-label="Previous">&#8249;</button>
+    <a class="cta" href="#">Shop the full collection</a>
+    <button class="arrow" id="btnNext" aria-label="Next">&#8250;</button>
+  </div>
+</section>
+
+<script>
+/* ============================ SETTINGS ============================ */
+var SETTINGS = {
+  speed:     68,    // auto-scroll, pixels per second  (0 = stop)
+  maxTilt:   43,    // degrees the outer cards rotate
+  bowlDepth: 400,   // how far the outer cards lean toward you, px
+  spread:    840    // how quickly the tilt builds up across the screen, px
+};
+
+/* ============================ PRODUCTS ============================
+   Edit a name or category here. Order = carousel order.
+   'image' points into the IMAGE DATA block at the bottom of this file. */
+var PRODUCTS = [
+    { imageKey: "card14", name: "Doctor Sleeve Shirt", category: "Shirts" },
+    { imageKey: "card02", name: "The Scots Oversized Tee", category: "Tees" },
+    { imageKey: "card08", name: "Frnd Of God Hoodie", category: "Hoodies" },
+    { imageKey: "card13", name: "Smash Varsity Jacket", category: "Outerwear" },
+    { imageKey: "card10", name: "Sun & Moon Linen Shirt", category: "Shirts" },
+    { imageKey: "card07", name: "Fine Shyt Tee", category: "Tees" },
+    { imageKey: "card09", name: "Foreign Lands Hoodie", category: "Hoodies" },
+    { imageKey: "card04", name: "Nobody Cares Shirt", category: "Shirts" },
+    { imageKey: "card12", name: "What The Flex Sweatshirt", category: "Sweats" },
+    { imageKey: "card05", name: "Polo T-shirt", category: "Polos" },
+    { imageKey: "card06", name: "Hands Off Striped Shirt", category: "Shirts" },
+    { imageKey: "card01", name: "Rosewood Corduroy Shirt", category: "Shirts" },
+    { imageKey: "card03", name: "Navy Check Flannel", category: "Flannels" },
+    { imageKey: "card11", name: "Track Pant 3-Stripe", category: "Bottoms" }
+];
+
+/* ===================== CAROUSEL (no need to edit) ===================== */
+var track = document.getElementById('carouselTrack');
+var view  = document.getElementById('carouselView');
+
+// three copies of the list, so the loop is seamless
+var items = [];
+function buildCards() {
+  for (var copy = 0; copy < 3; copy++) {
+  for (var i = 0; i < PRODUCTS.length; i++) {
+    var p = PRODUCTS[i];
+    var card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML =
+      '<div class="card-inner">' +
+        '<img alt="" src="' + IMAGES[p.imageKey] + '">' +
+        '<div class="card-label">' +
+          '<div class="card-name">' + p.name + '</div>' +
+          '<div class="card-category">' + p.category + '</div>' +
+        '</div>' +
+      '</div>';
+    track.appendChild(card);
+    items.push(card);
+  }
+  }
+}
+
+var offset = 0, target = null, hovering = false;
+var step = 0, setWidth = 0, viewWidth = 0, centers = [];
+
+function measure() {
+  viewWidth = view.clientWidth;
+  step = items.length > 1 ? items[1].offsetLeft - items[0].offsetLeft : 248;
+  setWidth = step * PRODUCTS.length;
+  centers = items.map(function (el) { return el.offsetLeft + el.offsetWidth / 2; });
+}
+
+function paint() {
+  if (!setWidth) return;
+  var m = ((offset % setWidth) + setWidth) % setWidth;
+  var shift = (viewWidth - step) / 2 - setWidth + m;
+  track.style.transform = 'translate3d(' + shift.toFixed(2) + 'px,0,0)';
+
+  var cx = viewWidth / 2;
+  for (var i = 0; i < items.length; i++) {
+    var x = centers[i] + shift;
+    if (x < -step * 1.6 || x > viewWidth + step * 1.6) { items[i].style.visibility = 'hidden'; continue; }
+    items[i].style.visibility = 'visible';
+    var t = Math.max(-1.25, Math.min(1.25, (x - cx) / SETTINGS.spread));
+    var rot = -t * SETTINGS.maxTilt;
+    var z = SETTINGS.bowlDepth * (1 - Math.cos(Math.min(1, Math.abs(t)) * 1.15));
+    items[i].style.transform = 'translate3d(0,0,' + z.toFixed(2) + 'px) rotateY(' + rot.toFixed(2) + 'deg)';
+    items[i].style.zIndex = String(100 + Math.round(Math.abs(t) * 50));
+  }
+}
+
+function nudge(dir) {
+  var from = (target === null) ? offset : target;
+  target = Math.round(from / step) * step + dir * step;
+}
+
+document.getElementById('btnPrev').onclick = function () { nudge(-1); };
+document.getElementById('btnNext').onclick = function () { nudge(1); };
+view.onmouseenter = function () { hovering = true; };
+view.onmouseleave = function () { hovering = false; };
+window.addEventListener('resize', function () { measure(); paint(); });
+
+function startCarousel() {
+  buildCards();
+  measure(); paint();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { measure(); paint(); });
+  requestAnimationFrame(tick);
+}
+
+var last = performance.now();
+function tick(now) {
+  var dt = Math.min(64, now - last); last = now;
+  if (target !== null) {
+    var d = target - offset;
+    if (Math.abs(d) < 0.4) { offset = target; target = null; }
+    else offset += d * (1 - Math.pow(0.0035, dt / 1000));
+  } else if (!hovering) {
+    offset += SETTINGS.speed * dt / 1000;
+  }
+  paint();
+  requestAnimationFrame(tick);
+}
+</script>
+
+<script>
+/* ============================ IMAGE DATA ============================
+   One entry per product photo, embedded so this file works on its own.
+   Each is a very long single line — that is normal.
+   To swap a photo, replace the long "data:image/jpeg;base64,...." string. */
+var IMAGES = {
+
+  // ===== This Is It Cropped Shirt =====
+  card14:
+"data:image/Carousel/101.jpeg",
+  // ===== The Scots Oversized Tee =====
+  card02:
+"data:image/Carousel/102.jpeg",
+
+  // ===== Frnd Of God Hoodie =====
+  card08:
+"data:image/Carousel/103.jpeg",
+
+  // ===== Smash Varsity Jacket =====
+  card13:
+"data:image/Carousel/104.jpeg",
+
+  // ===== Sun & Moon Linen Shirt =====
+  card10:
+"data:image/Carousel/105.jpeg",
+
+  // ===== Ni Hao! Fine Shyt Tee =====
+  card07:
+"data:image/Carousel/106.jpeg",
+
+  // ===== Foreign Lands Hoodie =====
+  card09:
+"data:image/Carousel/107.jpeg",
+
+  // ===== Nobody Cares Shirt =====
+  card04:
+"data:image/Carousel/108.jpeg",
+
+  // ===== What The Flex Sweatshirt =====
+  card12:
+"data:image/Carousel/109.jpeg",
+
+  // ===== Anti Romantic Polo =====
+  card05:
+"data:image/Carousel/110.jpeg",
+
+  // ===== Hands Off Striped Shirt =====
+  card06:
+"data:image/Carousel/111.jpeg",
+
+  // ===== Rosewood Corduroy Shirt =====
+  card01:
+"data:image/Carousel/112.jpeg",
+
+  // ===== Navy Check Flannel =====
+  card03:
+"data:image/Carousel/113.jpeg",
+
+  // ===== Track Pant 3-Stripe =====
+  card11:
+"data:image/Carousel/114.jpeg",
+
+};
+
+// photos are loaded — build the carousel
+startCarousel();
+</script>
+</body>
+</html>

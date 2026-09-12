@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Carousel snippet</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@700&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#fbfaf8}</style>
+</head>
+<body>
+
+<!-- ===== PASTE FROM HERE ===== -->
+<style>
+.cc-sec{padding:56px 0 40px;overflow:hidden;font-family:'Noto Serif',Georgia,serif}
+.cc-stage{width:100%;perspective:1150px;perspective-origin:50% 46%;overflow:hidden}
+.cc-view{position:relative;width:100%;height:430px;transform-style:preserve-3d}
+.cc-track{position:absolute;top:0;left:0;display:flex;gap:16px;align-items:center;height:100%;transform-style:preserve-3d;will-change:transform}
+.cc-card{flex:0 0 auto;width:232px;height:388px;transform-style:preserve-3d;backface-visibility:hidden}
+.cc-in{position:relative;width:100%;height:100%;border-radius:12px;overflow:hidden;background:#f4f2ee;box-shadow:0 18px 34px -18px rgba(30,45,70,.45);outline:1px solid rgba(120,140,165,.2);outline-offset:-1px}
+.cc-in img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.cc-lab{position:absolute;left:0;right:0;bottom:0;padding:44px 16px 14px;display:flex;flex-direction:column;gap:3px;background:linear-gradient(to top,rgba(14,18,26,.92) 0%,rgba(14,18,26,.88) 42%,rgba(14,18,26,.55) 68%,rgba(14,18,26,0) 100%)}
+.cc-nm{font-size:15px;font-weight:700;line-height:1.25;color:#fff}
+.cc-ct{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#fff}
+.cc-ctrl{display:flex;justify-content:center;align-items:center;gap:18px;margin-top:34px}
+.cc-arw{width:44px;height:44px;border-radius:999px;border:1px solid rgba(40,55,80,.18);background:#fff;color:#2a3750;font-size:20px;line-height:1;cursor:pointer;box-shadow:0 6px 14px -8px rgba(30,45,70,.5)}
+.cc-arw:hover{background:#f2f5f9}
+.cc-cta{font-size:17px;font-weight:700;color:#fff;text-decoration:none;padding:15px 30px;border-radius:999px;background:linear-gradient(95deg,#f4762a 0%,#ea2f6b 100%);box-shadow:0 12px 26px -12px rgba(226,60,100,.75)}
+</style>
+
+<section class="cc-sec">
+  <div class="cc-stage"><div class="cc-view" id="ccView"><div class="cc-track" id="ccTrack"></div></div></div>
+  <div class="cc-ctrl">
+    <button class="cc-arw" id="ccPrev" aria-label="Previous">&#8249;</button>
+    <a class="cc-cta" href="#">Shop the full collection</a>
+    <button class="cc-arw" id="ccNext" aria-label="Next">&#8250;</button>
+  </div>
+</section>
+
+<script>
+(function(){
+// EDIT HERE: image path, product name, category
+var P=[
+ ["101.jpeg","Doctor Sleeve Shirt","Shirts"],
+ ["102.jpeg","The Scots Oversized Tee","Tees"],
+ ["103.jpeg","Frnd Of God Hoodie","Hoodies"],
+ ["104.jpeg","Smash Varsity Jacket","Outerwear"],
+ ["105.jpeg","Sun &amp; Moon Linen Shirt","Shirts"],
+ ["106.jpeg","Fine Shyt Tee","Tees"],
+ ["107.jpeg","Foreign Lands Hoodie","Hoodies"],
+ ["108.jpeg","Nobody Cares Shirt","Shirts"],
+ ["109.jpeg","What The Flex Sweatshirt","Sweats"],
+ ["110.jpeg","Polo T-shirt","Polos"],
+ ["111.jpeg","Hands Off Striped Shirt","Shirts"],
+ ["112.jpeg","Rosewood Corduroy Shirt","Shirts"],
+ ["113.jpeg","Navy Check Flannel","Flannels"],
+ ["114.jpeg","Track Pant 3-Stripe","Bottoms"]
+];
+var SPEED=68,TILT=43,DEPTH=400,SPREAD=840;
+
+var track=document.getElementById('ccTrack'),view=document.getElementById('ccView'),items=[];
+for(var c=0;c<3;c++)for(var i=0;i<P.length;i++){
+  var d=document.createElement('div');d.className='cc-card';
+  d.innerHTML='<div class="cc-in"><img alt="" src="'+P[i][0]+'"><div class="cc-lab"><div class="cc-nm">'+P[i][1]+'</div><div class="cc-ct">'+P[i][2]+'</div></div></div>';
+  track.appendChild(d);items.push(d);
+}
+
+var off=0,tgt=null,hov=false,step=0,setW=0,vpW=0,cen=[];
+function measure(){vpW=view.clientWidth;step=items[1].offsetLeft-items[0].offsetLeft;setW=step*P.length;cen=items.map(function(e){return e.offsetLeft+e.offsetWidth/2});}
+function paint(){
+  if(!setW)return;
+  var m=((off%setW)+setW)%setW,sh=(vpW-step)/2-setW+m,cx=vpW/2;
+  track.style.transform='translate3d('+sh.toFixed(2)+'px,0,0)';
+  for(var i=0;i<items.length;i++){
+    var x=cen[i]+sh;
+    if(x<-step*1.6||x>vpW+step*1.6){items[i].style.visibility='hidden';continue;}
+    items[i].style.visibility='visible';
+    var t=Math.max(-1.25,Math.min(1.25,(x-cx)/SPREAD));
+    var z=DEPTH*(1-Math.cos(Math.min(1,Math.abs(t))*1.15));
+    items[i].style.transform='translate3d(0,0,'+z.toFixed(2)+'px) rotateY('+(-t*TILT).toFixed(2)+'deg)';
+    items[i].style.zIndex=100+Math.round(Math.abs(t)*50);
+  }
+}
+function nudge(dir){var f=tgt===null?off:tgt;tgt=Math.round(f/step)*step+dir*step;}
+document.getElementById('ccPrev').onclick=function(){nudge(-1)};
+document.getElementById('ccNext').onclick=function(){nudge(1)};
+view.onmouseenter=function(){hov=true};
+view.onmouseleave=function(){hov=false};
+window.addEventListener('resize',function(){measure();paint()});
+measure();paint();
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){measure();paint()});
+var last=performance.now();
+requestAnimationFrame(function tick(now){
+  var dt=Math.min(64,now-last);last=now;
+  if(tgt!==null){var d=tgt-off;if(Math.abs(d)<.4){off=tgt;tgt=null}else off+=d*(1-Math.pow(.0035,dt/1000));}
+  else if(!hov)off+=SPEED*dt/1000;
+  paint();requestAnimationFrame(tick);
+});
+})();
+</script>
+<!-- ===== TO HERE ===== -->
+
+</body>
+</html>
