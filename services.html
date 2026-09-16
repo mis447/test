@@ -28,18 +28,19 @@
       --font-sans:'Outfit',sans-serif;
       --tr:all .3s cubic-bezier(.4,0,.2,1);
     }
-    html{scroll-behavior:smooth}
+    html{scroll-behavior:smooth;overflow-x:hidden;max-width:100%}
     body{background:var(--white);color:var(--text);font-family:var(--font-sans);font-size:16px;line-height:1.7;overflow-x:hidden}
     ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--lgrey)}::-webkit-scrollbar-thumb{background:var(--nude);border-radius:4px}
     /* NAV */
     nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:1.2rem 5%;display:flex;align-items:center;justify-content:space-between;transition:var(--tr)}
-    nav.scrolled{background:rgba(255,255,255,.97);backdrop-filter:blur(14px);padding:.8rem 5%;border-bottom:1px solid var(--border)}
+    nav.scrolled{background:rgba(255,255,255,.97);padding:.8rem 5%;border-bottom:1px solid var(--border)}
     .logo{font-family:var(--font-serif);font-size:1.4rem;font-weight:700;color:var(--black);letter-spacing:3px;text-decoration:none;line-height:1}
     .logo em{color:var(--nude);font-style:normal}
     .nav-links{display:flex;gap:2rem;list-style:none;align-items:center}
     .nav-links a{color:var(--body);text-decoration:none;font-size:.8rem;font-weight:400;letter-spacing:1.5px;text-transform:uppercase;transition:var(--tr);position:relative}
     .nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--nude);transition:var(--tr)}
     .nav-links a:hover{color:var(--black)}.nav-links a:hover::after{width:100%}
+    .nav-links a.current{color:var(--black)}.nav-links a.current::after{width:100%}
     .nav-cta{background:var(--black)!important;color:var(--white)!important;padding:.48rem 1.3rem!important;font-weight:500!important;letter-spacing:1px!important;font-size:.75rem!important;text-transform:uppercase!important}
     .nav-cta::after{display:none!important}.nav-cta:hover{background:var(--nude)!important;color:var(--black)!important}
     .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;z-index:1001}
@@ -135,7 +136,7 @@
   <a href="index.html" class="logo">TRANCZ <em>FASHION</em></a>
   <ul class="nav-links" id="navLinks">
     <li><a href="index.html">Home</a></li>
-    <li><a href="services.html">Services</a></li>
+<li><a href="services.html" class="current">Services</a></li>
     <li><a href="corporate.html">Corporate Gifting</a></li>
     <li><a href="gallery.html">Gallery</a></li>
     <li><a href="contact.html">Contact Us</a></li>
