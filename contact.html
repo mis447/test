@@ -32,10 +32,13 @@
     body{background:var(--white);color:var(--text);font-family:var(--font-sans);font-size:16px;line-height:1.7;overflow-x:hidden}
     ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--lgrey)}::-webkit-scrollbar-thumb{background:var(--nude);border-radius:4px}
     /* NAV */
-    nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:1.2rem 5%;display:flex;align-items:center;justify-content:space-between;transition:var(--tr)}
-    nav.scrolled{background:rgba(255,255,255,.97);padding:.8rem 5%;border-bottom:1px solid var(--border)}
+    nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:64px;padding:0 5%;display:flex;align-items:center;justify-content:space-between;transition:var(--tr)}
+    nav.scrolled{background:rgba(255,255,255,.97);height:56px;border-bottom:1px solid var(--border)}
     .logo{font-family:var(--font-serif);font-size:1.4rem;font-weight:700;color:var(--black);letter-spacing:3px;text-decoration:none;line-height:1}
     .logo em{color:var(--nude);font-style:normal}
+    .nav-logo{display:flex;align-items:center;height:100%;text-decoration:none}
+    .nav-logo img{height:29px;width:auto;display:block}
+    @media(max-width:580px){.nav-logo img{height:22px}}
     .nav-links{display:flex;gap:2rem;list-style:none;align-items:center}
     .nav-links a{color:var(--body);text-decoration:none;font-size:.8rem;font-weight:400;letter-spacing:1.5px;text-transform:uppercase;transition:var(--tr);position:relative}
     .nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--nude);transition:var(--tr)}
@@ -71,6 +74,7 @@
     .btn-black:hover{background:var(--nude);color:var(--black)}
     .btn-outline{background:transparent;color:var(--black);padding:.8rem 2rem;border:1px solid var(--black);font-family:var(--font-sans);font-size:.8rem;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:var(--tr);display:inline-block}
     .btn-outline:hover{background:var(--black);color:var(--white)}
+    .hero-btn-row{display:flex;gap:1rem;flex-wrap:wrap;margin-top:1.8rem}
     .btn-nude{background:var(--nude);color:var(--black);padding:.8rem 2rem;border:none;font-family:var(--font-sans);font-size:.8rem;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:var(--tr);display:inline-block}
     .btn-nude:hover{background:var(--nude2);color:var(--black)}
     .btn-white-out{background:transparent;color:var(--white);padding:.8rem 2rem;border:1px solid rgba(255,255,255,.4);font-family:var(--font-sans);font-size:.8rem;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:var(--tr);display:inline-block}
@@ -103,7 +107,7 @@
     .reveal.visible{opacity:1;transform:translateY(0)}
     /* RESPONSIVE */
     @media(max-width:900px){.footer-grid{grid-template-columns:1fr 1fr}}
-    @media(max-width:680px){section{padding:3rem 5%}.nav-links{display:none}.nav-links.open{display:flex;flex-direction:column;position:fixed;inset:0;background:var(--white);align-items:center;justify-content:center;gap:2.5rem;z-index:1000}.nav-links.open a{font-size:1rem}.hamburger{display:flex}.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(4px,5px)}.hamburger.open span:nth-child(2){opacity:0}.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(4px,-5px)}.footer-grid{grid-template-columns:1fr}.footer-bottom{flex-direction:column;text-align:center}}
+    @media(max-width:680px){section{padding:3rem 5%}.nav-links{display:none}.nav-links.open{display:flex;flex-direction:column;position:fixed;inset:0;background:var(--white);align-items:center;justify-content:center;gap:2.5rem;z-index:1000}.nav-links.open a{font-size:1rem}.hamburger{display:flex}.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(4px,5px)}.hamburger.open span:nth-child(2){opacity:0}.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(4px,-5px)}.footer-grid{grid-template-columns:1fr}.footer-bottom{flex-direction:column;text-align:center}.hero-btn-row a{flex:1 1 140px;text-align:center}}
   </style>
 <style>
 .page-hero{background:var(--cream);padding:5.5rem 5% 2rem;border-bottom:1px solid var(--border)}
@@ -145,7 +149,7 @@
 </head>
 <body>
 <nav id="navbar">
-  <a href="index.html" class="logo">TRANCZ <em>FASHION</em></a>
+  <a href="index.html" class="nav-logo" aria-label="Trancz Fashion - Home"><img src="logo.png" alt="Trancz Fashion"></a>
   <ul class="nav-links" id="navLinks">
     <li><a href="index.html">Home</a></li>
     <li><a href="services.html">Services</a></li>
@@ -162,7 +166,11 @@
     <h1 class="page-hero-title">Contact <em>Us</em></h1>
     <div class="page-hero-line"></div>
     <p class="page-hero-sub">Have a project in mind? Reach out to Rohit and the Trancz Fashion team — we respond within 24 hours.</p>
-<a href="https://wa.me/918097283931?text=Hi%2C+I%27d+like+to+get+in+touch+with+Trancz+Fashion" target="_blank" class="btn-black" style="margin-right: 20px;">WhatsApp Us</a><a href="https://instagram.com/tranczfashion" target="_blank" class="btn-outline">Follow Us</a>  </div>
+    <div class="hero-btn-row">
+      <a href="https://wa.me/918097283931?text=Hi%2C+I%27d+like+to+get+in+touch+with+Trancz+Fashion" target="_blank" class="btn-black">WhatsApp Us</a>
+      <a href="https://instagram.com/tranczfashion" target="_blank" class="btn-outline">Follow Us</a>
+    </div>
+  </div>
 </div>
 <div class="ticker-wrap" aria-hidden="true">
   <div class="ticker">
