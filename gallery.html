@@ -46,7 +46,7 @@
     .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;z-index:1001}
     .hamburger span{display:block;width:22px;height:1.5px;background:var(--black);transition:var(--tr)}
     /* TICKER */
-    .ticker-wrap{background:var(--black);overflow:hidden;padding:.65rem 0;white-space:nowrap;position:sticky;top:58px;z-index:999}
+    .ticker-wrap{background:var(--black);overflow:hidden;padding:.65rem 0;white-space:nowrap;position:sticky;top:var(--nav-h,58px);z-index:999}
     .ticker{display:inline-flex;animation:ticker 40s linear infinite}
     .ticker-item{display:inline-flex;align-items:center;gap:.7rem;color:var(--white);font-size:.72rem;font-weight:400;letter-spacing:2px;text-transform:uppercase;padding:0 2.5rem}
     .ticker-dot{width:4px;height:4px;background:var(--nude);border-radius:50%;flex-shrink:0}
@@ -58,6 +58,7 @@
     .btn-black:hover{background:var(--nude);color:var(--black)}
     .btn-outline{background:transparent;color:var(--black);padding:.8rem 2rem;border:1px solid var(--black);font-family:var(--font-sans);font-size:.8rem;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:var(--tr);display:inline-block}
     .btn-outline:hover{background:var(--black);color:var(--white)}
+    .hero-btn-row{display:flex;gap:1rem;flex-wrap:wrap;margin-top:1.8rem}
     /* FOOTER */
     footer{background:var(--black);padding:2.5rem 5% 2rem}
     .footer-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:3rem;max-width:1200px;margin:0 auto 1.5rem}
@@ -86,7 +87,7 @@
     .reveal.visible{opacity:1;transform:translateY(0)}
     /* RESPONSIVE (shared) */
     @media(max-width:900px){.footer-grid{grid-template-columns:1fr 1fr}}
-    @media(max-width:680px){section{padding:4rem 5%}.nav-links{display:none}.nav-links.open{display:flex;flex-direction:column;position:fixed;inset:0;background:var(--white);align-items:center;justify-content:center;gap:2.5rem;z-index:1000}.nav-links.open a{font-size:1rem}.hamburger{display:flex}.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(4px,5px)}.hamburger.open span:nth-child(2){opacity:0}.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(4px,-5px)}.footer-grid{grid-template-columns:1fr}.footer-bottom{flex-direction:column;text-align:center}}
+    @media(max-width:680px){section{padding:4rem 5%}.nav-links{display:none}.nav-links.open{display:flex;flex-direction:column;position:fixed;inset:0;background:var(--white);align-items:center;justify-content:center;gap:2.5rem;z-index:1000}.nav-links.open a{font-size:1rem}.hamburger{display:flex}.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(4px,5px)}.hamburger.open span:nth-child(2){opacity:0}.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(4px,-5px)}.footer-grid{grid-template-columns:1fr}.footer-bottom{flex-direction:column;text-align:center}.hero-btn-row a{flex:1 1 140px;text-align:center;padding:.55rem 1.3rem;font-size:.7rem}}
 
     /* ---- page hero ---- */
     .page-hero{background:var(--cream);padding:5.5rem 5% 2rem;border-bottom:1px solid var(--border)}
@@ -94,6 +95,15 @@
     .page-hero-title{font-family:var(--font-serif);font-size:clamp(2.2rem,5vw,4rem);color:var(--black);font-weight:700;line-height:1.1;margin-bottom:.6rem;letter-spacing:-1px}
     .page-hero-title em{font-style:italic;color:var(--nude)}
     .page-hero-sub{color:var(--muted);font-size:.95rem;max-width:520px;line-height:1.8;font-weight:300}
+
+    /* ---- category heading ---- */
+    .category-heading{
+      padding:4rem 5% 2rem;
+      background:var(--cream);
+      border-bottom:1px solid var(--border);
+    }
+    .category-heading .page-hero-title{font-size:clamp(2rem,4vw,3.2rem);margin-bottom:.5rem}
+    .category-heading .page-hero-sub{max-width:620px}
 
     /* ---- filters ---- */
     .filters{
@@ -103,7 +113,7 @@
       padding:22px 5%;
       border-bottom:1px solid var(--border);
       position:sticky;
-      top:98px;
+      top:calc(var(--nav-h, 58px) + var(--ticker-h, 40px));
       background:var(--white);
       z-index:900;
     }
@@ -161,10 +171,6 @@
     .info .meta{ font-size:11.5px; color:var(--muted); letter-spacing:.02em; }
     .card.hidden{ display:none; }
 
-    @media(max-width:680px){
-      .ticker-wrap{ top:70px; }
-      .filters{ top:110px; }
-    }
 </style>
 </head>
 <body>
@@ -184,8 +190,8 @@
 <div class="page-hero">
   <span class="page-hero-tag">Portfolio</span>
   <h1 class="page-hero-title">Our <em>Work</em></h1>
-  <p class="page-hero-sub">A running record of what's come off the floor at TRANC'Z — private label pieces, sampling runs and client collaborations, straight from Dombivli.</p>
-  <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:1.8rem">
+  <p class="page-hero-sub">A running record of what's come off the floor at TRANCZ — private label pieces, sampling runs and client collaborations, straight from Dombivli.</p>
+  <div class="hero-btn-row">
     <a href="https://wa.me/918097283931?text=Hi+Rohit%2C+I+would+like+to+enquire+about+Trancz+Fashion" target="_blank" class="btn-black">WhatsApp Us</a>
     <a href="https://instagram.com/tranczfashion" target="_blank" class="btn-outline">Follow Us</a>
   </div>
@@ -247,7 +253,27 @@
 
 <script>
   const nb=document.getElementById('navbar');
-  window.addEventListener('scroll',()=>nb.classList.toggle('scrolled',scrollY>60));
+  const tickerWrap=document.querySelector('.ticker-wrap');
+  const root=document.documentElement;
+
+  // Nav height changes when the .scrolled class shrinks its padding, so we
+  // re-measure on every scroll (rAF-throttled) instead of hardcoding a top
+  // offset. This is what keeps the ticker flush under the nav with no gap.
+  let ticking=false;
+  function syncOffsets(){
+    root.style.setProperty('--nav-h', nb.offsetHeight+'px');
+    root.style.setProperty('--ticker-h', tickerWrap.offsetHeight+'px');
+    ticking=false;
+  }
+  function onScroll(){
+    nb.classList.toggle('scrolled',scrollY>60);
+    if(!ticking){ requestAnimationFrame(syncOffsets); ticking=true; }
+  }
+  window.addEventListener('scroll',onScroll);
+  window.addEventListener('resize',syncOffsets);
+  window.addEventListener('load',syncOffsets);
+  syncOffsets(); // run once immediately so it's correct before first scroll/paint
+
   const hb=document.getElementById('hamburger'),nl=document.getElementById('navLinks');
   hb.addEventListener('click',()=>{hb.classList.toggle('open');nl.classList.toggle('open')});
   nl.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{hb.classList.remove('open');nl.classList.remove('open')}));
@@ -271,63 +297,66 @@
    `category` to fake variety, or filtering breaks.
 ------------------------------------------------------------------- */
 const PRODUCTS = [
-  { name:"Hoodie 1", category:"Hoodies", ratio:"4/5", img:"Gallary/H/H1.png", tone:"#c9b291" },
-  { name:"Hoodie 2", category:"Hoodies", ratio:"1/1", img:"Gallary/H/H2.jpeg", tone:"#1c1a17" },
-  { name:"Hoodie 3", category:"Hoodies", ratio:"3/4", img:"Gallary/H/H3.jpeg", tone:"#e4dcd0" },
+  { name:"Printed Hoodie", category:"Hoodies", ratio:"4/5", img:"Gallary/H/H1.png", tone:"#c9b291" },
+  { name:"Printed Oversized/Boxy fit hoodie", category:"Hoodies", ratio:"1/1", img:"Gallary/H/H2.jpeg", tone:"#1c1a17" },
+  { name:"400 gsm Embroidered Hoodie", category:"Hoodies", ratio:"3/4", img:"Gallary/H/H3.jpeg", tone:"#e4dcd0" },
   { name:"Hoodie 4", category:"Hoodies", ratio:"5/4", img:"Gallary/H/H4.jpeg", tone:"#b79a78" },
-  { name:"Hoodie 5", category:"Hoodies", ratio:"6/7", img:"Gallary/H/H5.jpeg", tone:"#241f1a" },
-  { name:"Hoodie 6", category:"Hoodies", ratio:"790/372", img:"Gallary/H/H6.jpeg", tone:"#d9c4ac" },
-  { name:"Hoodie 7", category:"Hoodies", ratio:"977/421", img:"Gallary/H/H7.jpeg", tone:"#8a7458" },
-  { name:"Hoodie 8", category:"Hoodies", ratio:"842/467", img:"Gallary/H/H8.jpeg", tone:"#8a7458" },
+  { name:"Normal 400 gsm Hoodie", category:"Hoodies", ratio:"6/7", img:"Gallary/H/H5.jpeg", tone:"#241f1a" },
+  { name:"Nylon Hoodie", category:"Hoodies", ratio:"790/372", img:"Gallary/H/H6.jpeg", tone:"#d9c4ac" },
+  { name:"Normal 400 gsm Hoodie", category:"Hoodies", ratio:"977/421", img:"Gallary/H/H7.jpeg", tone:"#8a7458" },
+  { name:"400 gsm Embroidered Hoodie", category:"Hoodies", ratio:"842/467", img:"Gallary/H/H8.jpeg", tone:"#8a7458" },
 
-  { name:"Pant 1", category:"Pants", ratio:"4/6", img:"Gallary/P/P1.jpeg", tone:"#141210" },
-  { name:"Pant 2", category:"Pants", ratio:"4/7", img:"Gallary/P/P2.jpeg", tone:"#c9b291" },
+  { name:"Baggy Cargos", category:"Pants", ratio:"4/6", img:"Gallary/P/P1.jpeg", tone:"#141210" },
+  { name:"Parachute Pant", category:"Pants", ratio:"4/7", img:"Gallary/P/P2.jpeg", tone:"#c9b291" },
   { name:"Pant 3", category:"Pants", ratio:"1/1", img:"Gallary/P/P3.jpeg", tone:"#1c1a17" },
-  { name:"Pant 4", category:"Pants", ratio:"4/5", img:"Gallary/P/P4.jpeg", tone:"#e4dcd0" },
-  { name:"Pant 5", category:"Pants", ratio:"1/1", img:"Gallary/P/P5.jpeg", tone:"#b79a78" },
+  { name:"Baggy Shorts", category:"Pants", ratio:"4/5", img:"Gallary/P/P4.jpeg", tone:"#e4dcd0" },
+  { name:"Baggy Track Pant", category:"Pants", ratio:"1/1", img:"Gallary/P/P5.jpeg", tone:"#b79a78" },
   { name:"Pant 6", category:"Pants", ratio:"4/6", img:"Gallary/P/P6.jpeg", tone:"#241f1a" },
   { name:"Pant 7", category:"Pants", ratio:"3/6", img:"Gallary/P/P7.jpeg", tone:"#d9c4ac" },
   { name:"Pant 8", category:"Pants", ratio:"3/6", img:"Gallary/P/P8.jpeg", tone:"#8a7458" },
 
-  { name:"Tshirt 1", category:"Tshirts", ratio:"1/1", img:"Gallary/T/T1.jpeg", tone:"#1c1a17" },
-  { name:"Tshirt 2", category:"Tshirts", ratio:"413/400", img:"Gallary/T/T2.jpeg", tone:"#e4dcd0" },
-  { name:"Tshirt 3", category:"Tshirts", ratio:"598/305", img:"Gallary/T/T3.jpeg", tone:"#b79a78" },
-  { name:"Tshirt 4", category:"Tshirts", ratio:"6/6", img:"Gallary/T/T4.jpeg", tone:"#241f1a" },
-  { name:"Tshirt 5", category:"Tshirts", ratio:"2/3", img:"Gallary/T/T5.jpeg", tone:"#d9c4ac" },
-  { name:"Tshirt 6", category:"Tshirts", ratio:"587/295", img:"Gallary/T/T6.jpeg", tone:"#8a7458" },
-  { name:"Tshirt 7", category:"Tshirts", ratio:"405/197", img:"Gallary/T/T7.jpeg", tone:"#141210" },
-  { name:"Tshirt 8", category:"Tshirts", ratio:"4/5", img:"Gallary/T/T8.jpeg", tone:"#c9b291" },
-  { name:"Tshirt 9", category:"Tshirts", ratio:"1/1", img:"Gallary/T/T9.jpeg", tone:"#1c1a17" },
-  { name:"Tshirt 10", category:"Tshirts", ratio:"3/4", img:"Gallary/T/T10.jpeg", tone:"#e4dcd0" },
-  { name:"Tshirt 11", category:"Tshirts", ratio:"448/677", img:"Gallary/T/T.jpeg", tone:"#1c1a17" },
-  { name:"Tshirt 12", category:"Tshirts", ratio:"3/4", img:"Gallary/T/T12.jpeg", tone:"#e4dcd0" },
-  { name:"Tshirt 13", category:"Tshirts", ratio:"440/663", img:"Gallary/T/T13.jpeg", tone:"#e4dcd0" },
+  { name:"Printed Tshirt", category:"Tshirts", ratio:"1/1", img:"Gallary/T/T1.jpeg", tone:"#1c1a17" },
+  { name:"Flared Sleeve Boxy Full Sleeve Tshirt", category:"Tshirts", ratio:"413/400", img:"Gallary/T/T2.jpeg", tone:"#e4dcd0" },
+  { name:"All over printed (AOP) Round neck Tshirt", category:"Tshirts", ratio:"6/6", img:"Gallary/T/T4.jpeg", tone:"#241f1a" },
+  { name:"AOP Round neck Tshirt", category:"Tshirts", ratio:"2/3", img:"Gallary/T/T5.jpeg", tone:"#d9c4ac" },
+  { name:"AOP Round neck Tshirt", category:"Tshirts", ratio:"587/295", img:"Gallary/T/T6.jpeg", tone:"#8a7458" },
+  { name:"Printed Tshirt", category:"Tshirts", ratio:"440/663", img:"Gallary/T/T13.jpeg", tone:"#e4dcd0" },
   
-  { name:"Shirt 1", category:"Shirts", ratio:"3/4", img:"Gallary/S/S1.jpg", tone:"#b79a78" },
-  { name:"Shirt 2", category:"Shirts", ratio:"4/6", img:"Gallary/S/S2.png", tone:"#241f1a" },
-  { name:"Shirt 3", category:"Shirts", ratio:"3/4", img:"Gallary/S/S3.jpeg", tone:"#d9c4ac" },
-  { name:"Shirt 14", category:"Shirts", ratio:"497/577", img:"Gallary/S/S.png", tone:"#8a7458" },
-  { name:"Shirt 5", category:"Shirts", ratio:"3/4", img:"Gallary/S/S5.png", tone:"#141210" },
-  { name:"Shirt 6", category:"Shirts", ratio:"4/5", img:"Gallary/S/S6.jpeg", tone:"#c9b291" },
-  { name:"Shirt 7", category:"Shirts", ratio:"1/1", img:"Gallary/S/S7.jpeg", tone:"#1c1a17" },
-  { name:"Shirt 8", category:"Shirts", ratio:"526/355", img:"Gallary/S/S8.jpeg", tone:"#e4dcd0" },
-  { name:"Shirt 4", category:"Shirts", ratio:"5/4", img:"Gallary/S/S4.png", tone:"#b79a78" },
-  { name:"Shirt 10", category:"Shirts", ratio:"597/270", img:"Gallary/S/S10.jpeg", tone:"#241f1a" },
-  { name:"Shirt 11", category:"Shirts", ratio:"515/213", img:"Gallary/S/S11.jpeg", tone:"#b79a78" },
-  { name:"Shirt 12", category:"Shirts", ratio:"3/4", img:"Gallary/S/S12.jpeg", tone:"#d9c4ac" },
-  { name:"Shirt 13", category:"Shirts", ratio:"3/4", img:"Gallary/S/S13.png", tone:"#d9c4ac" },
-  { name:"Shirt 14", category:"Shirts", ratio:"505/267", img:"Gallary/S/S14.jpeg", tone:"#8a7458" },
+    { name:"Printed Shirt", category:"Shirts", ratio:"598/305", img:"Gallary/T/T3.jpeg", tone:"#b79a78" },
+  { name:"Stripped Printed Shirt", category:"Shirts", ratio:"3/4", img:"Gallary/S/S1.jpg", tone:"#b79a78" },
+  { name:"Brushed Checks Boxy Shirt", category:"Shirts", ratio:"4/6", img:"Gallary/S/S2.png", tone:"#241f1a" },
+  { name:"Yarned Dyed Striped Boxy Shirt", category:"Shirts", ratio:"3/4", img:"Gallary/S/S3.jpeg", tone:"#d9c4ac" },
+  { name:"Brushed Checks Boxy Shirt", category:"Shirts", ratio:"497/577", img:"Gallary/S/S.png", tone:"#8a7458" },
+  { name:"Boxy Linen Shirt", category:"Shirts", ratio:"3/4", img:"Gallary/S/S5.png", tone:"#141210" },
+  { name:"Stripped Printed Shirt", category:"Shirts", ratio:"4/5", img:"Gallary/S/S6.jpeg", tone:"#c9b291" },
+  { name:"Printed Shirt", category:"Shirts", ratio:"1/1", img:"Gallary/S/S7.jpeg", tone:"#1c1a17" },
+  { name:"Placement Printed Shirt", category:"Shirts", ratio:"526/355", img:"Gallary/S/S8.jpeg", tone:"#e4dcd0" },
+  { name:"Stripped Shirt", category:"Shirts", ratio:"5/4", img:"Gallary/S/S4.png", tone:"#b79a78" },
+  { name:"Boxy Printed Shirt", category:"Shirts", ratio:"597/270", img:"Gallary/S/S10.jpeg", tone:"#241f1a" },
+  { name:"Boxy Half Sleeve Shirt", category:"Shirts", ratio:"515/213", img:"Gallary/S/S11.jpeg", tone:"#b79a78" },
+  { name:"Boxy Doctor Sleeve Shirt", category:"Shirts", ratio:"3/4", img:"Gallary/S/S12.jpeg", tone:"#d9c4ac" },
+  { name:"Brushed Checks Boxy Shirt", category:"Shirts", ratio:"3/4", img:"Gallary/S/S13.png", tone:"#d9c4ac" },
+  { name:"Brushed Checks Boxy Shirt", category:"Shirts", ratio:"505/267", img:"Gallary/S/S14.jpeg", tone:"#8a7458" },
 
-  { name:"Jacket 1", category:"Jackets", ratio:"2/3", img:"Gallary/J/J1.webp", tone:"#d9c4ac" },
-  { name:"Jacket 2", category:"Jackets", ratio:"3/5", img:"Gallary/J/J2.webp", tone:"#8a7458" },
-  { name:"Jacket 3", category:"Jackets", ratio:"6/5", img:"Gallary/J/J3.webp", tone:"#141210" },
-  { name:"Jacket 4", category:"Jackets", ratio:"4/5", img:"Gallary/J/J4.webp", tone:"#c9b291" },
-  { name:"Jacket 5", category:"Jackets", ratio:"1/1", img:"Gallary/J/J5.jpeg", tone:"#1c1a17" },
-  { name:"Jacket 6", category:"Jackets", ratio:"3/4", img:"Gallary/J/J6.webp", tone:"#e4dcd0" },
-  { name:"Jacket 7", category:"Jackets", ratio:"5/6", img:"Gallary/J/J7.webp", tone:"#b79a78" },
-  { name:"Jacket 8", category:"Jackets", ratio:"4/6", img:"Gallary/J/J8.webp", tone:"#241f1a" },
-  { name:"Jacket 9", category:"Jackets", ratio:"2/3", img:"Gallary/J/J9.webp", tone:"#d9c4ac" },
-  { name:"Jacket 10", category:"Jackets", ratio:"3/4", img:"Gallary/J/J10.jpeg", tone:"#8a7458" }
+  { name:"Relaxed Fit Utility Jacket", category:"Jackets", ratio:"2/3", img:"Gallary/J/J1.webp", tone:"#d9c4ac" },
+  { name:"Oversized Versatile Jacket", category:"Jackets", ratio:"3/5", img:"Gallary/J/J2.webp", tone:"#8a7458" },
+  { name:"Oversized Versatile Jacket", category:"Jackets", ratio:"6/5", img:"Gallary/J/J3.webp", tone:"#141210" },
+  { name:"Relaxed Fit Utility Jacket", category:"Jackets", ratio:"4/5", img:"Gallary/J/J4.webp", tone:"#c9b291" },
+  { name:"Leather Collar Jacket", category:"Jackets", ratio:"1/1", img:"Gallary/J/J5.jpeg", tone:"#1c1a17" },
+  { name:"Oversized Versatile Jacket", category:"Jackets", ratio:"3/4", img:"Gallary/J/J6.webp", tone:"#e4dcd0" },
+  { name:"Oversized Versatile Jacket", category:"Jackets", ratio:"5/6", img:"Gallary/J/J7.webp", tone:"#b79a78" },
+  { name:"Leather Collar Jacket", category:"Jackets", ratio:"4/6", img:"Gallary/J/J8.webp", tone:"#241f1a" },
+  { name:"Oversized Versatile Jacket", category:"Jackets", ratio:"2/3", img:"Gallary/J/J9.webp", tone:"#d9c4ac" },
+  { name:"Anti-Pill Fleece Jacket", category:"Jackets", ratio:"3/4", img:"Gallary/J/J10.jpeg", tone:"#8a7458" },
+  
+    { name:"Polo Tshirt", category:"Polo Tshirts", ratio:"405/197", img:"Gallary/T/T7.jpeg", tone:"#141210" },
+  { name:"Painted V neck Polo Tshirt", category:"Polo Tshirts", ratio:"4/5", img:"Gallary/T/T8.jpeg", tone:"#c9b291" },
+  { name:"Regular fit Zipper Polo Tshirt", category:"Polo Tshirts", ratio:"1/1", img:"Gallary/T/T9.jpeg", tone:"#1c1a17" },
+  { name:"All Over Printed (AOP) Polo Tshirt", category:"Polo Tshirts", ratio:"3/4", img:"Gallary/T/T10.jpeg", tone:"#e4dcd0" },
+  { name:"AOP Half Sleeve Henley Waffled Tshirt", category:"Polo Tshirts", ratio:"448/677", img:"Gallary/T/T.jpeg", tone:"#1c1a17" },
+  { name:"Regular fit Polo Tshirt", category:"Polo Tshirts", ratio:"3/4", img:"Gallary/T/T12.jpeg", tone:"#e4dcd0" },
+
+  
 ];
 
 // Shuffle DISPLAY ORDER only — category stays correct on every card,
