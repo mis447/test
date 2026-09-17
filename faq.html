@@ -32,8 +32,7 @@
     body{background:var(--white);color:var(--text);font-family:var(--font-sans);font-size:16px;line-height:1.7;overflow-x:hidden}
     ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--lgrey)}::-webkit-scrollbar-thumb{background:var(--nude);border-radius:4px}
     /* NAV */
-    nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:64px;padding:0 5%;display:flex;align-items:center;justify-content:space-between;transition:var(--tr)}
-    nav.scrolled{background:rgba(255,255,255,.97);height:56px;border-bottom:1px solid var(--border)}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:64px;padding:0 5%;display:flex;align-items:center;justify-content:space-between;transition:var(--tr);background:#FFFFFF;border-bottom:1px solid var(--border)}    nav.scrolled{background:#FFFFFF;height:56px;border-bottom:1px solid var(--border)}
     .logo{font-family:var(--font-serif);font-size:1.4rem;font-weight:700;color:var(--black);letter-spacing:3px;text-decoration:none;line-height:1}
     .logo em{color:var(--nude);font-style:normal}
     .nav-logo{display:flex;align-items:center;height:100%;text-decoration:none}
@@ -83,6 +82,8 @@
     .footer-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:3rem;max-width:1200px;margin:0 auto 1.5rem}
     .footer-brand .logo{color:var(--white);display:block;margin-bottom:1rem}
     .footer-brand .logo em{color:var(--nude)}
+	.footer-logo{display:inline-block;margin-bottom:1rem}
+.footer-logo img{height:60px;width:auto;display:block}
     .footer-desc{font-size:.8rem;color:rgba(255,255,255,.35);line-height:1.8;margin-bottom:1.5rem;font-weight:300}
     .social-links{display:flex;gap:.6rem}
     .social-link{width:36px;height:36px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.35);text-decoration:none;font-size:.75rem;transition:var(--tr)}
@@ -106,7 +107,7 @@
     .reveal.visible{opacity:1;transform:translateY(0)}
     /* RESPONSIVE */
     @media(max-width:900px){.footer-grid{grid-template-columns:1fr 1fr}}
-    @media(max-width:680px){section{padding:4rem 5%}.nav-links{display:none}.nav-links.open{display:flex;flex-direction:column;position:fixed;inset:0;background:var(--white);align-items:center;justify-content:center;gap:2.5rem;z-index:1000}.nav-links.open a{font-size:1rem}.hamburger{display:flex}.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(4px,5px)}.hamburger.open span:nth-child(2){opacity:0}.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(4px,-5px)}.footer-grid{grid-template-columns:1fr}.footer-bottom{flex-direction:column;text-align:center}.hero-btn-row a{flex:1 1 140px;text-align:center}}
+    @media(max-width:680px){section{padding:4rem 5%}.nav-links{display:none}.nav-links.open{display:flex;flex-direction:column;position:fixed;inset:0;background:var(--white);align-items:center;justify-content:center;gap:2.5rem;z-index:1000}.nav-links.open a{font-size:1rem}.hamburger{display:flex}.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(4px,5px)}.hamburger.open span:nth-child(2){opacity:0}.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(4px,-5px)}.footer-grid{grid-template-columns:1fr}.footer-bottom{flex-direction:column;text-align:center}.hero-btn-row a{flex:0 0 auto;text-align:center;padding:.55rem 1.3rem;font-size:.7rem}.btn-black,.btn-outline{padding:.55rem 1.3rem;font-size:.7rem}}
   </style>
 <style>
 .page-hero{background:var(--cream);padding:5.5rem 5% 2rem;border-bottom:1px solid var(--border)}
@@ -216,12 +217,12 @@
     <!-- Sidebar -->
     <div class="faq-sidebar reveal">
       <div class="faq-sidebar-title">Categories</div>
-      <button class="cat-link active" onclick="scrollTo('general')">General</button>
-      <button class="cat-link" onclick="scrollTo('ordering')">Ordering &amp; MOQ</button>
-      <button class="cat-link" onclick="scrollTo('sampling')">Sampling &amp; Production</button>
-      <button class="cat-link" onclick="scrollTo('fabrics')">Fabrics &amp; Printing</button>
-      <button class="cat-link" onclick="scrollTo('delivery')">Shipping &amp; Delivery</button>
-      <button class="cat-link" onclick="scrollTo('corporate')">Corporate Gifting</button>
+      <button class="cat-link active" onclick="scrollToSection('general')">General</button>
+      <button class="cat-link" onclick="scrollToSection('ordering')">Ordering &amp; MOQ</button>
+      <button class="cat-link" onclick="scrollToSection('sampling')">Sampling &amp; Production</button>
+      <button class="cat-link" onclick="scrollToSection('fabrics')">Fabrics &amp; Printing</button>
+      <button class="cat-link" onclick="scrollToSection('delivery')">Shipping &amp; Delivery</button>
+      <button class="cat-link" onclick="scrollToSection('corporate')">Corporate Gifting</button>
       <div style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border)">
       </div>
     </div>
@@ -403,8 +404,7 @@
 <footer>
   <div class="footer-grid">
     <div class="footer-brand">
-      <a href="index.html" class="logo">TRANCZ <em>FASHION</em></a>
-      <p class="footer-desc">A leading garment manufacturing company based in Mumbai, India. Specializing in premium apparel production, fabric sourcing, and private label solutions.</p>
+<a href="index.html" class="footer-logo" aria-label="Trancz Fashion - Home"><img src="wt.png" alt="Trancz Fashion"></a>      <p class="footer-desc">A leading garment manufacturing company based in Mumbai, India. Specializing in premium apparel production, fabric sourcing, and private label solutions.</p>
       <div class="social-links">
         <a href="https://instagram.com/tranczfashion" target="_blank" class="social-link" title="Instagram">ig</a>
         <a href="https://wa.me/918097283931" target="_blank" class="social-link" title="WhatsApp">wa</a>
@@ -448,7 +448,7 @@ document.querySelectorAll('.faq-q').forEach(q => {
 });
 
 /* Scroll to a category section when its sidebar link is clicked */
-function scrollTo(id){
+function scrollToSection(id){
   const el = document.getElementById(id);
   if(!el) return;
   const offset = 120; /* account for sticky nav + ticker */
@@ -462,7 +462,7 @@ function scrollTo(id){
   const links = Array.from(document.querySelectorAll('.cat-link'));
   const linkById = {};
   links.forEach(link=>{
-    const id = link.getAttribute('onclick').match(/scrollTo\('([^']+)'\)/)[1];
+    const id = link.getAttribute('onclick').match(/scrollToSection\('([^']+)'\)/)[1];
     linkById[id] = link;
   });
 
